@@ -4,19 +4,19 @@ import { SunShine } from "./RollingSun/SunShine.jsx";
 
 export function RollingSun() {
   const springs = useSpring({
-    from: { x: 0, y: 0 },
-    to: { x: 200, y: 100 },
+    from: { x: "-100%", y: "-100%" },
+    to: { x: "5%", y: "5%" },
     config: { duration: 2000 },
   });
 
   return (
     <animated.div
       style={{
-        width: "250px",
-        height: "250px",
+        width: "150px",
+        height: "150px",
         position: "absolute",
-        top: "-100px",
-        left: "-10%",
+        // top: "-10%",
+        // left: "-10%",
         transformOrigin: "center",
         transformBox: "fill-box",
         ...springs,
@@ -24,8 +24,8 @@ export function RollingSun() {
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        width="250px"
-        height="250px"
+        // width="250px"
+        // height="250px"
         viewBox="0 0 24 24"
         style={{
           // position: "absolute",

@@ -4,10 +4,10 @@ export function SunShine() {
   const springs = useSpring({
     from: { transform: "rotate(0deg) scale(1)" },
     to: [
-      { transform: " rotate(180deg) scale(1.5)" },
-      { transform: "rotate(360deg) scale(1)" },
-      { transform: " rotate(540deg) scale(1.5)" },
-      { transform: "rotate(720deg) scale(1)" },
+      { transform: " rotate(90deg) scale(1.3)" },
+      { transform: "rotate(135deg) scale(1)" },
+      { transform: " rotate(180deg) scale(1.3)" },
+      { transform: "rotate(247.5deg) scale(1)" },
     ],
     config: { duration: 2000 },
   });

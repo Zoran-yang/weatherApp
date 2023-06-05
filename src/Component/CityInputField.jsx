@@ -2,30 +2,32 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 
-export default function CityField({ city, setCity, getWeather }) {
+export default function CityInputField({ city, setCity, getWeather }) {
   return (
     <Box
       component="form"
       noValidate
       autoComplete="off"
       sx={{
-        height: "100vh",
+        // height: "100vh",
+        display: "flex",
+        justifyContent: "center",
+        alignContent: "center",
       }}
     >
       <div
         style={{
-          width: "50%",
+          // width: "50%",
           margin: "auto",
-          position: "absolute",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, -50%)",
+          // position: "absolute",
+          // top: "50%",
+          // left: "50%",
+          // transform: "translate(-50%, -50%)",
           display: "flex",
           justifyContent: "center",
           alignContent: "center",
           flexWrap: "wrap",
           padding: "20px",
-          backgroundColor: "#e6e6e633",
         }}
       >
         <TextField
