@@ -9,6 +9,7 @@ export default function SvgSunShine() {
       { transform: " rotate(180deg) scale(1.3)" },
       { transform: "rotate(247.5deg) scale(1)" },
     ],
+    loop: true,
     config: { duration: 2000 },
   });
 

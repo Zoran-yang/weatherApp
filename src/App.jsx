@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useSpring, animated } from "@react-spring/web";
-import Clear from "./Component/Clear/Clear.jsx";
-import SvgBackground from "./Component/SvgBackground.jsx";
+import WeatherAnimation from "./Animation/WeatherAnimation.jsx";
+import SvgBackground from "./Animation/SvgBackground.jsx";
 import CityInputField from "./Component/CityInputField.jsx";
 import WeatherCard from "./Component/WeatherCard.jsx";
 import LoadingAnimation from "./Animation/LoadingAnimation/LoadingAnimation.jsx";
@@ -11,7 +11,7 @@ let geoapify_API_KEY = "f75db0c92a0149ff904a1d6b8cf7fc15";
 
 function App() {
   // const [city, setCity] = useState("");
-  const [city, setCity] = useState("london"); // ! for testing
+  const [city, setCity] = useState("Beijing"); // ! for testing
   const [weather, setWeather] = useState("");
   const [forcast, setForcast] = useState("");
   const [startingNum, setStartingNum] = useState("");
@@ -87,7 +87,7 @@ function App() {
   if (weather && forcast && startingNum) {
     return (
       <>
-        <Clear />
+        <WeatherAnimation weather={weather.weather[0].main} />
         <div
           style={{
             height: "100vh",

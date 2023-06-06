@@ -1,8 +1,10 @@
-import RollingSun from "../Clear/Component/RollingSun.jsx";
+// import { useSpring, animated } from "@react-spring/web";
+// import { Sun } from "./Component/RollingSun/Sun.jsx";
+// import { SunShine } from "./Component/SunShine.jsx";
+import RollingSun from "./Component/RollingSun.jsx";
 import SvgBackground from "../SvgBackground.jsx";
-import SvgClouds from "./SvgClouds.jsx";
 
-export default function FewClouds() {
+export default function Clear() {
   return (
     <div
       style={{
@@ -13,19 +15,6 @@ export default function FewClouds() {
       }}
     >
       <RollingSun />
-      <div
-        style={{
-          //   zIndex: -1,
-          position: "absolute",
-          width: "100%", // Set parent to take up full width
-          height: "100%", // Set parent to take up full height
-          //   display: "flex",
-          //   alignItems: "flex-end",
-          //   overflow: "hidden",
-        }}
-      >
-        <SvgClouds />
-      </div>
       <div
         style={{
           width: "100%", // Set parent to take up full width
