@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useSpring, animated } from "@react-spring/web";
 import Clear from "./Component/Clear/Clear.jsx";
 import SvgBackground from "./Component/SvgBackground.jsx";
 import CityInputField from "./Component/CityInputField.jsx";
@@ -10,11 +11,17 @@ let geoapify_API_KEY = "f75db0c92a0149ff904a1d6b8cf7fc15";
 
 function App() {
   // const [city, setCity] = useState("");
-  const [city, setCity] = useState("london"); // for testing
+  const [city, setCity] = useState("london"); // ! for testing
   const [weather, setWeather] = useState("");
   const [forcast, setForcast] = useState("");
   const [startingNum, setStartingNum] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const springs = useSpring({
+    from: { opacity: 0, transform: "translateY(-100%)" },
+    to: { opacity: 1, transform: "translateY(0%)" },
+    delay: 1000,
+    config: { duration: 2000 },
+  });
 
   function handleForcast(forcast) {
     setForcast(forcast);
@@ -96,17 +103,19 @@ function App() {
               height: "fit-content",
             }}
           >
-            <CityInputField
-              city={city}
-              setCity={setCity}
-              getWeather={getWeather}
-            />
-            <WeatherCard
-              city={city}
-              weather={weather}
-              forcast={forcast}
-              startingNum={startingNum}
-            />
+            <animated.div style={springs}>
+              <CityInputField
+                city={city}
+                setCity={setCity}
+                getWeather={getWeather}
+              />
+              <WeatherCard
+                city={city}
+                weather={weather}
+                forcast={forcast}
+                startingNum={startingNum}
+              />
+            </animated.div>
           </div>
         </div>
       </>
@@ -128,6 +137,7 @@ function App() {
       >
         <SvgBackground />
       </div>
+
       <div
         style={{
           height: "100vh",

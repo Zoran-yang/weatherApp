@@ -1,6 +1,6 @@
 import { useSpring, animated } from "@react-spring/web";
 
-export function SunShine() {
+export default function SvgSunShine() {
   const springs = useSpring({
     from: { transform: "rotate(0deg) scale(1)" },
     to: [

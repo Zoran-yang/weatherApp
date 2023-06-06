@@ -1,8 +1,8 @@
 import { useSpring, animated } from "@react-spring/web";
-import { Sun } from "./RollingSun/Sun.jsx";
-import { SunShine } from "./RollingSun/SunShine.jsx";
+import SvgSun from "./RollingSun/SvgSun.jsx";
+import SvgSunShine from "./RollingSun/SvgSunShine.jsx";
 
-export function RollingSun() {
+export default function RollingSun() {
   const springs = useSpring({
     from: { x: "-100%", y: "-100%" },
     to: { x: "5%", y: "5%" },
@@ -35,8 +35,8 @@ export function RollingSun() {
           overflow: "visible",
         }}
       >
-        <SunShine />
-        <Sun />
+        <SvgSunShine />
+        <SvgSun />
       </svg>
     </animated.div>
   );
