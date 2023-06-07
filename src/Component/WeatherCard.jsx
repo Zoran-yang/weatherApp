@@ -75,6 +75,8 @@ export default function WeatherCard({
       return forcast.list.slice(startingNum + (i - 1) * 8, startingNum + i * 8);
     });
   const initialDay = startingNum === 0 ? "Tomorrow" : "Today";
+  console.log("forcast", forcast);
+  console.log("session", session);
 
   return (
     <div

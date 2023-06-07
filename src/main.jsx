@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
-// import Introduction from "./Animation/Introduction/Introduction.jsx";
+import Introduction from "./Animation/Introduction/Introduction.jsx";
 import Clear from "./Animation/Clear/Clear.jsx";
 import Rain from "./Animation/Rain/Rain.jsx";
 import Clouds from "./Animation/Clouds/Clouds.jsx";

@@ -3,9 +3,9 @@ import { useTransition, animated } from "@react-spring/web";
 
 import styles from "./styles.module.css";
 
-export default function Introduction() {
+export default function Introduction({ setAnimationFinished }) {
   const ref = useRef([]);
-  const [items, set] = useState([]);
+  const [items, setItems] = useState([]);
   const transitions = useTransition(items, {
     from: {
       opacity: 0,
@@ -28,15 +28,20 @@ export default function Introduction() {
   });
 
   const reset = useCallback(() => {
-    ref.current.forEach(clearTimeout);
+    // ref.current.forEach(clearTimeout);
     ref.current = [];
-    set([]);
+    setItems([]);
+    ref.current.push(setTimeout(() => setItems(["Hello", "everyone"]), 1000));
     ref.current.push(
-      setTimeout(() => set(["Apples", "Oranges", "Kiwis"]), 2000)
+      setTimeout(() => setItems(["Hello", "I'm", "weather app"]), 4000)
     );
-    ref.current.push(setTimeout(() => set(["Apples", "Kiwis"]), 5000));
     ref.current.push(
-      setTimeout(() => set(["Apples", "Bananas", "Kiwis"]), 8000)
+      setTimeout(() => setItems(["Hello", "I'm", "your", "weather app"]), 7000)
+    );
+    ref.current.push(
+      setTimeout(() => {
+        setAnimationFinished(true);
+      }, 10000)
     );
   }, []);
 
@@ -46,13 +51,13 @@ export default function Introduction() {
   }, []);
 
   return (
-    <div className={styles.container}>
+    <div className="mainbody">
       <div className={styles.main}>
         {transitions(({ innerHeight, ...rest }, item) => (
           <animated.div
             className={styles.transitionsItem}
             style={rest}
-            onClick={reset}
+            onClick={() => setAnimationFinished(true)}
           >
             <animated.div style={{ overflow: "hidden", height: innerHeight }}>
               {item}
