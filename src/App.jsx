@@ -5,16 +5,64 @@ import SvgBackground from "./Animation/SvgBackground.jsx";
 import CityInputField from "./Component/CityInputField.jsx";
 import WeatherCard from "./Component/WeatherCard.jsx";
 import LoadingAnimation from "./Animation/LoadingAnimation/LoadingAnimation.jsx";
+import "./App.css";
 
 let openweathermap_API_KEY = "a8833f63319758a6fdfd6d647d816bfc";
 let geoapify_API_KEY = "f75db0c92a0149ff904a1d6b8cf7fc15";
 
+// Services to make the api calls
+async function fetchData(url) {
+  const response = await fetch(url);
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(
+      `HTTP error: ${response.status}, Data: ${JSON.stringify(errorData)}`
+    );
+  }
+  return response.json();
+}
+
+async function fetchWeatherData(city) {
+  const geoData = await fetchData(
+    `http://api.openweathermap.org/geo/1.0/direct?q=${city}&appid=${openweathermap_API_KEY}`
+  );
+  const lat = geoData[0]["lat"];
+  const lon = geoData[0]["lon"];
+
+  const [timezoneData, currentWeather, forcast] = await Promise.all([
+    fetchData(
+      `https://api.geoapify.com/v1/geocode/reverse?lat=${lat}&lon=${lon}&format=json&apiKey=${geoapify_API_KEY}`
+    ),
+    fetchData(
+      `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${openweathermap_API_KEY}&units=metric`
+    ),
+    fetchData(
+      `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${openweathermap_API_KEY}&units=metric`
+    ),
+  ]);
+
+  const timezone =
+    timezoneData["results"][0].timezone.offset_STD_seconds * 1000;
+  const now = new Date();
+  // take the current hour and add the timezone offset
+  now.setTime(now.getTime() + timezone);
+  let hours = now.getUTCHours();
+
+  // get the starting number for the forcast array
+  // 24 - hours = hours left in the day
+  // hours left in the day / 3 = number of 3 hour sessions left in the day
+  const startingNum = Math.trunc((24 - hours) / 3);
+
+  return { currentWeather, forcast, startingNum, now };
+}
+
 function App() {
   // const [city, setCity] = useState("");
-  const [city, setCity] = useState("Beijing"); // ! for testing
+  const [city, setCity] = useState("Rome"); // ! for testing
   const [weather, setWeather] = useState("");
   const [forcast, setForcast] = useState("");
-  const [startingNum, setStartingNum] = useState("");
+  const [startingNum, setStartingNum] = useState(null);
+  const [date, setDate] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const springs = useSpring({
     from: { opacity: 0, transform: "translateY(-100%)" },
@@ -23,86 +71,34 @@ function App() {
     config: { duration: 2000 },
   });
 
-  function handleForcast(forcast) {
-    setForcast(forcast);
-  }
-
-  function getWeather() {
+  const getWeather = () => {
     setIsLoading(true);
-    // get geo location of target city
-    fetch(
-      `http://api.openweathermap.org/geo/1.0/direct?q=${city}&appid=${openweathermap_API_KEY}`
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        // console.log("geo", data);
-        // get Timezone of target city for selecting next 5 days weather forcast
-        const getTimezone = fetch(
-          `https://api.geoapify.com/v1/geocode/reverse?lat=${data[0]["lat"]}&lon=${data[0]["lon"]}&format=json&apiKey=${geoapify_API_KEY}`
-        )
-          .then((resp) => resp.json())
-          .then((result) => {
-            if (result["results"]) {
-              // console.log("result", result["results"][0]);
-              const timezone =
-                result["results"][0].timezone.offset_STD_seconds / 3600;
-              const now = new Date();
-              const hours = now.getUTCHours() + timezone; // get current hours of target city
-              const startingSession = Math.ceil((24 - hours) / 3); // get how many session of 3 hours left to next day
-              setStartingNum(startingSession - 1); // set intial array for selecting next 5 days weather forcast
-            } else {
-              console.log("No location found");
-            }
-          });
-        // get current Weather of target city
-        const getCurrentWeather = fetch(
-          `https://api.openweathermap.org/data/2.5/weather?lat=${data[0]["lat"]}&lon=${data[0]["lon"]}&appid=${openweathermap_API_KEY}&units=metric`
-        )
-          .then((response) => response.json())
-          .then((data) => {
-            console.log("Weather", data);
-            setWeather(data);
-          });
-        // get 5 days weather forcast of target city
-        const getForcast = fetch(
-          `https://api.openweathermap.org/data/2.5/forecast?lat=${data[0]["lat"]}&lon=${data[0]["lon"]}&appid=${openweathermap_API_KEY}&units=metric`
-        )
-          .then((response) => response.json())
-          .then((data) => {
-            console.log("Forcast", data);
-            handleForcast(data);
-          });
-
-        Promise.all([getTimezone, getCurrentWeather, getForcast]).then(() => {
-          setIsLoading(false);
-          console.log("All done!");
-        });
+    fetchWeatherData(city)
+      .then(({ currentWeather, forcast, startingNum, now }) => {
+        setWeather(currentWeather);
+        setForcast(forcast);
+        setStartingNum(startingNum);
+        setDate(now);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.error(`Error fetching data: ${error.message}`);
+        setIsLoading(false);
       });
-  }
+  };
 
+  //When fetch weather data, show loading animation
   if (isLoading) {
     return <LoadingAnimation />;
   }
 
-  if (weather && forcast && startingNum) {
+  //When all data is ready, show weather card
+  if (weather && forcast && startingNum !== null) {
     return (
       <>
         <WeatherAnimation weather={weather.weather[0].main} />
-        <div
-          style={{
-            height: "100vh",
-            display: "flex",
-            justifyContent: "center",
-            alignContent: "center",
-            flexWrap: "wrap",
-          }}
-        >
-          <div
-            style={{
-              backgroundColor: "#e6e6e633",
-              height: "fit-content",
-            }}
-          >
+        <div className="mainbody">
+          <div className="inputfield">
             <animated.div style={springs}>
               <CityInputField
                 city={city}
@@ -114,6 +110,7 @@ function App() {
                 weather={weather}
                 forcast={forcast}
                 startingNum={startingNum}
+                date={date}
               />
             </animated.div>
           </div>
@@ -124,36 +121,12 @@ function App() {
 
   return (
     <>
-      <div
-        style={{
-          zIndex: -1,
-          position: "absolute",
-          width: "100%", // Set parent to take up full width
-          height: "100%", // Set parent to take up full height
-          display: "flex",
-          alignItems: "flex-end",
-          overflow: "hidden",
-        }}
-      >
+      <div className="svgbackground background">
         <SvgBackground />
       </div>
 
-      <div
-        style={{
-          height: "100vh",
-          display: "flex",
-          justifyContent: "center",
-          alignContent: "center",
-          flexWrap: "wrap",
-          backgroundColor: "#e6e6e633",
-        }}
-      >
-        <div
-          style={{
-            backgroundColor: "#e6e6e633",
-            height: "fit-content",
-          }}
-        >
+      <div className="mainbody">
+        <div className="inputfield">
           <CityInputField
             city={city}
             setCity={setCity}

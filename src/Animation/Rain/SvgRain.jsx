@@ -8,7 +8,7 @@ export default function SvgRain() {
       { opacity: 0.5, transform: "translate(-20px, 80px)" },
       { opacity: 0, transform: "translate(-40px, 160px)" },
     ],
-    config: { duration: 2000 },
+    config: { duration: 1000 },
     loop: true,
   });
   return (

@@ -19,28 +19,14 @@ export default function FewClouds() {
   });
 
   return (
-    <div
-      style={{
-        zIndex: -1,
-        position: "absolute",
-        width: "100%", // Set parent to take up full width
-        height: "100%", // Set parent to take up full height
-        overflow: "hidden",
-      }}
-    >
+    <div className="background">
       <SvgFixedSun />
       <animated.div
         style={{
-          //   zIndex: -1,
           position: "absolute",
-          width: "100%", // Set parent to take up full width
-          height: "100%", // Set parent to take up full height
-          //   top: "8%",
-          //   left: "13%",
+          top: "3%",
+          left: "3%",
           ...springs,
-          //   display: "flex",
-          //   alignItems: "flex-end",
-          //   overflow: "hidden",
         }}
       >
         <SvgClouds />
@@ -49,14 +35,7 @@ export default function FewClouds() {
         style={{
           zIndex: -1,
           position: "absolute",
-          //   top: "20%",
-          //   left: "50%",
           ...springs_big,
-          //   width: "100%", // Set parent to take up full width
-          //   height: "100%", // Set parent to take up full height
-          //   display: "flex",
-          //   alignItems: "flex-end",
-          //   overflow: "hidden",
         }}
       >
         <SvgClouds_Big />
@@ -68,24 +47,11 @@ export default function FewClouds() {
           top: "-10%",
           left: "85%",
           ...springs_big,
-          //   width: "100%", // Set parent to take up full width
-          //   height: "100%", // Set parent to take up full height
-          //   display: "flex",
-          //   alignItems: "flex-end",
-          //   overflow: "hidden",
         }}
       >
         <SvgClouds_Big1 />
       </div>
-      <div
-        style={{
-          width: "100%", // Set parent to take up full width
-          height: "100%", // Set parent to take up full height
-          display: "flex",
-          alignItems: "flex-end",
-          overflow: "hidden",
-        }}
-      >
+      <div className="svgbackground">
         <SvgBackground />
       </div>
     </div>

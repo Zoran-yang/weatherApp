@@ -9,25 +9,32 @@ export default function Svglightning() {
     ],
     delay: 1000,
     loop: true,
-    config: { duration: 1000 },
+    config: { duration: 300 },
   });
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 24 24"
+    <div
       style={{
-        fill: "yellow",
-        overflow: "visible",
+        width: "150px",
+        height: "150px",
       }}
     >
-      <animated.path
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
         style={{
-          transformOrigin: "center",
-          transformBox: "fill-box",
-          ...springs,
+          fill: "yellow",
+          overflow: "visible",
         }}
-        d="M10 13l-1 5h2v4l3.975-6H13l1-3z"
-      />
-    </svg>
+      >
+        <animated.path
+          style={{
+            transformOrigin: "center",
+            transformBox: "fill-box",
+            ...springs,
+          }}
+          d="M10 13l-1 5h2v4l3.975-6H13l1-3z"
+        />
+      </svg>
+    </div>
   );
 }

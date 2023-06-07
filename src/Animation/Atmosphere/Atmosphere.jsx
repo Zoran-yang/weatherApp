@@ -11,15 +11,7 @@ export default function Atmosphere() {
   });
 
   return (
-    <div
-      style={{
-        zIndex: -1,
-        position: "absolute",
-        width: "100%", // Set parent to take up full width
-        height: "100%", // Set parent to take up full height
-        overflow: "hidden",
-      }}
-    >
+    <div className="background">
       <animated.div
         style={{
           zIndex: -1,
@@ -51,15 +43,7 @@ export default function Atmosphere() {
       >
         <SvgWind />
       </animated.div>
-      <div
-        style={{
-          width: "100%", // Set parent to take up full width
-          height: "100%", // Set parent to take up full height
-          display: "flex",
-          alignItems: "flex-end",
-          overflow: "hidden",
-        }}
-      >
+      <div className="svgbackground">
         <SvgBackground />
       </div>
     </div>

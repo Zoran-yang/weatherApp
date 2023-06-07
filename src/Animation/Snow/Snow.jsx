@@ -5,18 +5,9 @@ import SvgSnow from "./SvgSnow.jsx";
 
 export default function Snow() {
   return (
-    <div
-      style={{
-        zIndex: -1,
-        position: "absolute",
-        width: "100%", // Set parent to take up full width
-        height: "100%", // Set parent to take up full height
-        overflow: "hidden",
-      }}
-    >
+    <div className="background">
       <div
         style={{
-          zIndex: 1,
           position: "absolute",
           width: "100%", // Set parent to take up full width
           height: "100%",
@@ -25,16 +16,7 @@ export default function Snow() {
         <SvgSnow />
       </div>
 
-      <div
-        style={{
-          //   zIndex: 1,
-          width: "100%", // Set parent to take up full width
-          height: "100%", // Set parent to take up full height
-          display: "flex",
-          alignItems: "flex-end",
-          overflow: "hidden",
-        }}
-      >
+      <div className="svgbackground">
         <SvgBackground />
       </div>
     </div>

@@ -2,12 +2,15 @@ import { useSpring, animated } from "@react-spring/web";
 
 export default function SvgSunShine() {
   const springs = useSpring({
-    from: { transform: "rotate(0deg) scale(1)" },
+    from: { rotateZ: 0, transform: "scale(1)" },
     to: [
-      { transform: " rotate(90deg) scale(1.3)" },
-      { transform: "rotate(135deg) scale(1)" },
-      { transform: " rotate(180deg) scale(1.3)" },
-      { transform: "rotate(247.5deg) scale(1)" },
+      { rotateZ: 90, transform: "scale(1.3)" },
+      { rotateZ: 135, transform: "scale(1)" },
+      { rotateZ: 180, transform: "scale(1.3)" },
+      { rotateZ: 225, transform: "scale(1)" },
+      { rotateZ: 270, transform: "scale(1.3)" },
+      { rotateZ: 315, transform: "scale(1)" },
+      { rotateZ: 360, transform: "scale(1.3)" },
     ],
     loop: true,
     config: { duration: 2000 },

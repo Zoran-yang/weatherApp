@@ -4,7 +4,7 @@ export default function SvgSnow() {
   const trailSprings = useTrail(3, {
     from: { opacity: 0 },
     to: [{ opacity: 1 }, { opacity: 0.5 }, { opacity: 0 }],
-    config: { duration: 3000 },
+    config: { duration: 2000 },
     loop: true,
   });
   return (

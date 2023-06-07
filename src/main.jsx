@@ -1,26 +1,24 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
-// import LoadingAnimation from "./Animation/LoadingAnimation/LoadingAnimation.jsx";
-// import Clear from "./Component/Clear/Clear.jsx";
-// import Clouds from "./Component/Clouds/Clouds.jsx";
-// import Snow from "./Component/Snow/Snow.jsx";
-// import Thunderstorm from "./Component/Thunderstorm/Thunderstorm.jsx";
-// import Rain from "./Component/Rain/Rain.jsx";
-// import Atmosphere from "./Component/Atmosphere/Atmosphere.jsx";
-// import Introduction from "./Component/Introduction.jsx";
+// import Introduction from "./Animation/Introduction/Introduction.jsx";
+import Clear from "./Animation/Clear/Clear.jsx";
+import Rain from "./Animation/Rain/Rain.jsx";
+import Clouds from "./Animation/Clouds/Clouds.jsx";
+import Snow from "./Animation/Snow/Snow.jsx";
+import Thunderstorm from "./Animation/Thunderstorm/Thunderstorm.jsx";
+import Atmosphere from "./Animation/Atmosphere/Atmosphere.jsx";
 import "./index.css";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <App />
     {/* <Clear /> */}
-    {/* <Clouds /> */}
     {/* <Atmosphere /> */}
-    {/* <Snow /> */}
+    {/* <Clouds /> */}
     {/* <Rain /> */}
+    {/* <Snow /> */}
     {/* <Thunderstorm /> */}
     {/* <Introduction /> */}
-    {/* <LoadingAnimation /> */}
   </React.StrictMode>
 );

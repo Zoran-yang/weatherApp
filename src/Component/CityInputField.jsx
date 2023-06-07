@@ -3,13 +3,18 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 
 export default function CityInputField({ city, setCity, getWeather }) {
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    getWeather();
+  };
+
   return (
     <Box
       component="form"
+      onSubmit={handleSubmit}
       noValidate
       autoComplete="off"
       sx={{
-        // height: "100vh",
         display: "flex",
         justifyContent: "center",
         alignContent: "center",
@@ -17,12 +22,7 @@ export default function CityInputField({ city, setCity, getWeather }) {
     >
       <div
         style={{
-          // width: "50%",
           margin: "auto",
-          // position: "absolute",
-          // top: "50%",
-          // left: "50%",
-          // transform: "translate(-50%, -50%)",
           display: "flex",
           justifyContent: "center",
           alignContent: "center",
@@ -32,18 +32,12 @@ export default function CityInputField({ city, setCity, getWeather }) {
       >
         <TextField
           id="outlined-basic"
-          label="Key Your City"
+          label="Where are you?"
           variant="outlined"
           sx={{ width: "100%" }}
           onChange={(e) => setCity(e.target.value)}
         />
-        <Button
-          variant="contained"
-          sx={{ marginTop: "10px" }}
-          onClick={() => {
-            getWeather(city);
-          }}
-        >
+        <Button type="submit" variant="contained" sx={{ marginTop: "10px" }}>
           Submit
         </Button>
       </div>

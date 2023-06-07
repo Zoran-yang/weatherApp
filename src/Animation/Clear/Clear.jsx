@@ -6,24 +6,9 @@ import SvgBackground from "../SvgBackground.jsx";
 
 export default function Clear() {
   return (
-    <div
-      style={{
-        zIndex: -1,
-        position: "absolute",
-        width: "100%", // Set parent to take up full width
-        height: "100%", // Set parent to take up full height
-      }}
-    >
+    <div className="background">
       <RollingSun />
-      <div
-        style={{
-          width: "100%", // Set parent to take up full width
-          height: "100%", // Set parent to take up full height
-          display: "flex",
-          alignItems: "flex-end",
-          overflow: "hidden",
-        }}
-      >
+      <div className="svgbackground">
         <SvgBackground />
       </div>
     </div>

@@ -1,19 +1,80 @@
 import Emphasize from "../Animation/Emphasize";
 
-export default function WeatherCard({ city, weather, forcast, startingNum }) {
-  let today = forcast.list.slice(0, startingNum);
-  let subset_day1 = forcast.list.slice(startingNum, startingNum + 8);
-  let subset_day2 = forcast.list.slice(startingNum + 8, startingNum + 16);
-  let subset_day3 = forcast.list.slice(startingNum + 16, startingNum + 24);
-  let subset_day4 = forcast.list.slice(startingNum + 24, startingNum + 32);
+function ForecastCard({ session, day, order, forcast }) {
+  return (
+    <div style={{ padding: "5px" }}>
+      <Emphasize>
+        <div>{day}</div>
+        <div>
+          {/* The icon is the weather condition of the same point of searching time of a day */}
+          <img
+            src={`https://openweathermap.org/img/wn/${
+              forcast.list[order * 8].weather[0].icon
+            }.png`}
+            alt={forcast.list[order * 8].weather[0].main}
+            className="weather-icon"
+          />
+          <br />
+          {getMaxTemp(session)}° {getMinTemp(session)}°
+          <br />
+        </div>
+      </Emphasize>
+    </div>
+  );
+}
 
-  function getMinTemp(array) {
-    return Math.min(...array.map((item) => Math.round(item.main.temp_min)));
-  }
+// getMinTemp() and getMaxTemp() are used to get the min and max temperature of a day
+function getMinTemp(array) {
+  return Math.min(...array.map((item) => Math.round(item.main.temp_min)));
+}
 
-  function getMaxTemp(array) {
-    return Math.max(...array.map((item) => Math.round(item.main.temp_max)));
-  }
+function getMaxTemp(array) {
+  return Math.max(...array.map((item) => Math.round(item.main.temp_max)));
+}
+
+// getFurtureDayofWeek() is used to get the day of week of a day
+function getFurtureDayofWeek(date, i) {
+  const futureDate = new Date(date.getTime());
+  futureDate.setDate(date.getDate() + i);
+
+  const dayOfWeekIndex = futureDate.getDay();
+  const daysOfWeek = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
+
+  return isNaN(dayOfWeekIndex) ? null : daysOfWeek[dayOfWeekIndex];
+}
+
+export default function WeatherCard({
+  city,
+  weather,
+  forcast,
+  startingNum,
+  date,
+}) {
+  // Forcast data is divided into today and 4 days, each day has 8 data points
+  const session = Array(5)
+    .fill(0)
+    .map((_, i) => {
+      if (startingNum === 0)
+        return forcast.list.slice(
+          startingNum + i * 8,
+          startingNum + (i + 1) * 8
+        );
+
+      if (i === 0) {
+        return forcast.list.slice(0 + i * 8, startingNum + i * 8);
+      }
+
+      return forcast.list.slice(startingNum + (i - 1) * 8, startingNum + i * 8);
+    });
+  const initialDay = startingNum === 0 ? "Tomorrow" : "Today";
 
   return (
     <div
@@ -22,11 +83,10 @@ export default function WeatherCard({ city, weather, forcast, startingNum }) {
         justifyContent: "center",
         alignContent: "center",
         flexWrap: "wrap",
-        // backgroundColor: "#e6e6e633",
         padding: "10px",
       }}
     >
-      <div style={{ width: "100%", textAlign: "center" }}>
+      <div style={{ width: "100%" }}>
         <Emphasize>
           <span
             style={{
@@ -38,88 +98,25 @@ export default function WeatherCard({ city, weather, forcast, startingNum }) {
           >
             {city.toUpperCase()}
             <br />
+            {getFurtureDayofWeek(date, 0)}
+            <br />
             {Math.round(weather.main.temp)} °C
             <br />
             {weather.weather[0].main}
             <br />
-            {/* <img
-            src={`https://openweathermap.org/img/wn/${forcast.list[0].weather[0].icon}.png`}
-            alt={weather.weather[0].main}
-          /> */}
           </span>
         </Emphasize>
       </div>
 
-      <div style={{ padding: "5px" }}>
-        <Emphasize>
-          <div style={{ textAlign: "center" }}> Today</div>
-          <span>
-            <img
-              src={`https://openweathermap.org/img/wn/${forcast.list[0].weather[0].icon}.png`}
-              alt={forcast.list[0].weather[0].main}
-            />
-            <br />
-            {getMaxTemp(today)}° {getMinTemp(today)}°
-            <br />
-          </span>
-        </Emphasize>
-      </div>
-      <div style={{ padding: "5px" }}>
-        <Emphasize>
-          <div style={{ textAlign: "center" }}>D1</div>
-          <span>
-            <img
-              src={`https://openweathermap.org/img/wn/${forcast.list[8].weather[0].icon}.png`}
-              alt={forcast.list[8].weather[0].main}
-            />
-            <br />
-            {getMaxTemp(subset_day1)}° {getMinTemp(subset_day1)}°
-            <br />
-          </span>
-        </Emphasize>
-      </div>
-      <div style={{ padding: "5px" }}>
-        <Emphasize>
-          <div style={{ textAlign: "center" }}>D2</div>
-          <span>
-            <img
-              src={`https://openweathermap.org/img/wn/${forcast.list[16].weather[0].icon}.png`}
-              alt={forcast.list[16].weather[0].main}
-            />
-            <br />
-            {getMaxTemp(subset_day2)}° {getMinTemp(subset_day2)}°
-            <br />
-          </span>
-        </Emphasize>
-      </div>
-      <div style={{ padding: "5px" }}>
-        <Emphasize>
-          <div style={{ textAlign: "center" }}>D3</div>
-          <span>
-            <img
-              src={`https://openweathermap.org/img/wn/${forcast.list[24].weather[0].icon}.png`}
-              alt={forcast.list[24].weather[0].main}
-            />
-            <br />
-            {getMaxTemp(subset_day3)}° {getMinTemp(subset_day3)}°
-            <br />
-          </span>
-        </Emphasize>
-      </div>
-      <div style={{ padding: "5px" }}>
-        <Emphasize>
-          <div style={{ textAlign: "center" }}>D4</div>
-          <span>
-            <img
-              src={`https://openweathermap.org/img/wn/${forcast.list[32].weather[0].icon}.png`}
-              alt={forcast.list[32].weather[0].main}
-            />
-            <br />
-            {getMaxTemp(subset_day4)}° {getMinTemp(subset_day4)}°
-            <br />
-          </span>
-        </Emphasize>
-      </div>
+      {session.map((sessionData, i) => (
+        <ForecastCard
+          key={i}
+          session={sessionData}
+          day={i === 0 ? initialDay : `${getFurtureDayofWeek(date, i)}`}
+          order={i}
+          forcast={forcast}
+        />
+      ))}
     </div>
   );
 }

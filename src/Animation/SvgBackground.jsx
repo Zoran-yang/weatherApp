@@ -4,7 +4,6 @@ export default function SvgBackground() {
   const springs = useSpring({
     from: { opacity: 0 },
     to: { opacity: 1 },
-    config: { duration: 2000 },
   });
 
   //matchMedia() to render components differently based on resolution
@@ -12,6 +11,7 @@ export default function SvgBackground() {
   const mql = window.matchMedia("(max-width: 700px)");
 
   if (mql.matches) {
+    // if screen is thinner than 600px, render this svg with tree
     return (
       <animated.svg
         xmlns="http://www.w3.org/2000/svg"

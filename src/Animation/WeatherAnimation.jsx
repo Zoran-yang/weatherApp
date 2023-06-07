@@ -7,6 +7,7 @@ import Thunderstorm from "./Thunderstorm/Thunderstorm";
 import SvgBackground from "./SvgBackground";
 
 export default function WeatherAnimation({ weather }) {
+  // According to the weather, return different animation
   switch (weather) {
     case "Thunderstorm":
       return <Thunderstorm />;
@@ -23,6 +24,10 @@ export default function WeatherAnimation({ weather }) {
     case "Atmosphere":
       return <Atmosphere />;
     default:
-      return <SvgBackground />;
+      return (
+        <div className="svgbackground background">
+          <SvgBackground />
+        </div>
+      );
   }
 }
