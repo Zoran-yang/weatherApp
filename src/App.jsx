@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useSpring, animated } from "@react-spring/web";
 import WeatherAnimation from "./Animation/WeatherAnimation.jsx";
 import SvgBackground from "./Animation/SvgBackground.jsx";
@@ -24,12 +24,15 @@ async function fetchData(url) {
 }
 
 async function fetchWeatherData(city) {
+  // Get the lat and lon of the city
   const geoData = await fetchData(
     `http://api.openweathermap.org/geo/1.0/direct?q=${city}&appid=${openweathermap_API_KEY}`
   );
+  if (geoData.length === 0) throw new Error("No such city!");
   const lat = geoData[0]["lat"];
   const lon = geoData[0]["lon"];
 
+  // Get the timezone offset, current weather and weather forcast for next 5 days
   const [timezoneData, currentWeather, forcast] = await Promise.all([
     fetchData(
       `https://api.geoapify.com/v1/geocode/reverse?lat=${lat}&lon=${lon}&format=json&apiKey=${geoapify_API_KEY}`
@@ -57,14 +60,17 @@ async function fetchWeatherData(city) {
   return { currentWeather, forcast, startingNum, now };
 }
 
-function App() {
-  // const [city, setCity] = useState("");
-  const [city, setCity] = useState("Taipei"); // ! for testing
+export default function App() {
+  const [city, setCity] = useState("");
+  // const [city, setCity] = useState("Taipei"); // ! for testing
+  const [cityName, setCityName] = useState("");
   const [weather, setWeather] = useState("");
   const [forcast, setForcast] = useState("");
   const [startingNum, setStartingNum] = useState(null);
   const [date, setDate] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
+  const [isFirstVisit, setIsFirstVisit] = useState(true);
   const [AnimationFinished, setAnimationFinished] = useState(false);
   const [springs, api] = useSpring(() => ({
     from: { opacity: 0, transform: "translateY(-100%)" },
@@ -80,16 +86,19 @@ function App() {
         setForcast(forcast);
         setStartingNum(startingNum);
         setDate(now);
+        setIsError(false);
         setIsLoading(false);
       })
       .catch((error) => {
         console.error(`Error fetching data: ${error.message}`);
+        setIsError(true);
         setIsLoading(false);
       });
   };
 
-  if (!AnimationFinished) {
-    return <Introduction setAnimationFinished={setAnimationFinished} />;
+  // When first time visit, show introduction animation
+  if (isFirstVisit) {
+    return <Introduction setIsFirstVisit={setIsFirstVisit} />;
   }
 
   //When fetch weather data, show loading animation
@@ -99,11 +108,15 @@ function App() {
 
   //When all data is ready, show weather card
   if (weather && forcast && startingNum !== null) {
-    api.start({
-      from: { opacity: 0, transform: "translateY(-100%)" },
-      to: { opacity: 1, transform: "translateY(0%)" },
-      config: { duration: 2000 },
-    });
+    // When first time visit, show introduction animation
+    if (!AnimationFinished) {
+      api.start({
+        from: { opacity: 0, transform: "translateY(-100%)" },
+        to: { opacity: 1, transform: "translateY(0%)" },
+        config: { duration: 2000 },
+      });
+      setAnimationFinished(true);
+    }
 
     return (
       <>
@@ -118,13 +131,16 @@ function App() {
                 city={city}
                 setCity={setCity}
                 getWeather={getWeather}
+                isError={isError}
+                setCityName={setCityName}
               />
               <WeatherCard
-                city={city}
+                city={cityName}
                 weather={weather}
                 forcast={forcast}
                 startingNum={startingNum}
                 date={date}
+                isError={isError}
               />
             </div>
           </animated.div>
@@ -133,11 +149,6 @@ function App() {
     );
   }
 
-  api.start({
-    from: { opacity: 0, transform: "translateY(-100%)" },
-    to: { opacity: 1, transform: "translateY(0%)" },
-    config: { duration: 2000 },
-  });
   return (
     <>
       <div className="svgbackground background">
@@ -151,6 +162,8 @@ function App() {
               city={city}
               setCity={setCity}
               getWeather={getWeather}
+              isError={isError}
+              setCityName={setCityName}
             />
           </div>
         </animated.div>
@@ -158,5 +171,3 @@ function App() {
     </>
   );
 }
-
-export default App;

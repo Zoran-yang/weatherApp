@@ -3,7 +3,7 @@ import { useTransition, animated } from "@react-spring/web";
 
 import styles from "./styles.module.css";
 
-export default function Introduction({ setAnimationFinished }) {
+export default function Introduction({ setIsFirstVisit }) {
   const ref = useRef([]);
   const [items, setItems] = useState([]);
   const transitions = useTransition(items, {
@@ -40,7 +40,7 @@ export default function Introduction({ setAnimationFinished }) {
     );
     ref.current.push(
       setTimeout(() => {
-        setAnimationFinished(true);
+        setIsFirstVisit(false);
       }, 10000)
     );
   }, []);
@@ -57,7 +57,7 @@ export default function Introduction({ setAnimationFinished }) {
           <animated.div
             className={styles.transitionsItem}
             style={rest}
-            onClick={() => setAnimationFinished(true)}
+            onClick={() => setIsFirstVisit(false)}
           >
             <animated.div style={{ overflow: "hidden", height: innerHeight }}>
               {item}

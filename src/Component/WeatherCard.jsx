@@ -57,7 +57,12 @@ export default function WeatherCard({
   forcast,
   startingNum,
   date,
+  isError,
 }) {
+  // If there is an error, show nothing
+  if (isError) {
+    return;
+  }
   // Forcast data is divided into today and 4 days, each day has 8 data points
   const session = Array(5)
     .fill(0)
@@ -75,8 +80,6 @@ export default function WeatherCard({
       return forcast.list.slice(startingNum + (i - 1) * 8, startingNum + i * 8);
     });
   const initialDay = startingNum === 0 ? "Tomorrow" : "Today";
-  console.log("forcast", forcast);
-  console.log("session", session);
 
   return (
     <div
