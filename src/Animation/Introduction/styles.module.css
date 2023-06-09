@@ -3,6 +3,7 @@
     padding: 0 20px;
     margin: 0 auto;
     height: 260px;
+    transform: translateY(-30%);
   }
   
   .transitionsItem {
@@ -12,7 +13,7 @@
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    font-size: 4em;
+    font-size: 3em;
     font-weight: 800;
     text-transform: uppercase;
     will-change: transform, opacity, height;

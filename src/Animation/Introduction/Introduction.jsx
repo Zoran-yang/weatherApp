@@ -33,10 +33,13 @@ export default function Introduction({ setIsFirstVisit }) {
     setItems([]);
     ref.current.push(setTimeout(() => setItems(["Hello", "everyone"]), 1000));
     ref.current.push(
-      setTimeout(() => setItems(["Hello", "I'm", "weather app"]), 4000)
+      setTimeout(() => setItems(["Hello", "I'm", "weather", "app"]), 4000)
     );
     ref.current.push(
-      setTimeout(() => setItems(["Hello", "I'm", "your", "weather app"]), 7000)
+      setTimeout(
+        () => setItems(["Hello", "I'm", "your", "weather", "app"]),
+        7000
+      )
     );
     ref.current.push(
       setTimeout(() => {

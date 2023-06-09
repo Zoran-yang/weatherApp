@@ -1,4 +1,5 @@
 import Emphasize from "../Animation/Emphasize";
+import { getMinTemp, getMaxTemp, getFurtureDayofWeek } from "./utility";
 
 function ForecastCard({ session, day, order, forcast }) {
   return (
@@ -12,7 +13,6 @@ function ForecastCard({ session, day, order, forcast }) {
               forcast.list[order * 8].weather[0].icon
             }.png`}
             alt={forcast.list[order * 8].weather[0].main}
-            className="weather-icon"
           />
           <br />
           {getMaxTemp(session)}° {getMinTemp(session)}°
@@ -21,34 +21,6 @@ function ForecastCard({ session, day, order, forcast }) {
       </Emphasize>
     </div>
   );
-}
-
-// getMinTemp() and getMaxTemp() are used to get the min and max temperature of a day
-function getMinTemp(array) {
-  return Math.min(...array.map((item) => Math.round(item.main.temp_min)));
-}
-
-function getMaxTemp(array) {
-  return Math.max(...array.map((item) => Math.round(item.main.temp_max)));
-}
-
-// getFurtureDayofWeek() is used to get the day of week of a day
-function getFurtureDayofWeek(date, i) {
-  const futureDate = new Date(date.getTime());
-  futureDate.setDate(date.getDate() + i);
-
-  const dayOfWeekIndex = futureDate.getDay();
-  const daysOfWeek = [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-  ];
-
-  return isNaN(dayOfWeekIndex) ? null : daysOfWeek[dayOfWeekIndex];
 }
 
 export default function WeatherCard({

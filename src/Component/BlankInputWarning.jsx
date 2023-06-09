@@ -1,7 +1,5 @@
 export default function BlankInputWarning({ isBlank }) {
-  if (!isBlank) {
-    return;
-  }
+  if (!isBlank) return null;
 
   return (
     <div style={{ marginBottom: 0, width: "100%" }}>

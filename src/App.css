@@ -1,4 +1,8 @@
-
+@media (min-width: 700px) {
+  .inputfield {
+    transform: translate(0, -10%);
+  }
+}
 
 .mainbody{
   height: 100vh;
@@ -29,11 +33,4 @@
   width: 100%;
   height: 100%;
   overflow: hidden;
-}
-
-.weather-icon {
-  /* Set image to not exceed parent size */
-  object-fit: cover;
-  /* Set image to be centered in parent */
-  object-position: center;
 }

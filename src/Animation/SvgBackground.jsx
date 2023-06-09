@@ -15,10 +15,9 @@ export default function SvgBackground() {
     return (
       <animated.svg
         xmlns="http://www.w3.org/2000/svg"
-        // width="300px"
-        // height="150px"
-        // data-name="Layer 1"
         viewBox="0 0 870 688"
+        width="100%"
+        // height="auto"
         style={{ ...springs }}
       >
         <path
